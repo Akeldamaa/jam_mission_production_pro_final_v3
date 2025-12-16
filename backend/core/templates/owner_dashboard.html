@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block title %}Owner Dashboard - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <h1 class="section-title">Owner Dashboard</h1>
+    <p class="mb-6">Welcome! Use this dashboard to manage your events, products, services, posts and bookings.  Below you'll find a summary of your site activity along with quick actions.</p>
+
+    <!-- Analytics summary -->
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-8">
+        <div class="p-4 bg-white rounded shadow text-center">
+            <div class="text-3xl font-bold text-amber-700">{{ analytics.events }}</div>
+            <p class="text-sm text-slate-600">Events</p>
+        </div>
+        <div class="p-4 bg-white rounded shadow text-center">
+            <div class="text-3xl font-bold text-amber-700">{{ analytics.services }}</div>
+            <p class="text-sm text-slate-600">Services</p>
+        </div>
+        <div class="p-4 bg-white rounded shadow text-center">
+            <div class="text-3xl font-bold text-amber-700">{{ analytics.products }}</div>
+            <p class="text-sm text-slate-600">Products</p>
+        </div>
+        <div class="p-4 bg-white rounded shadow text-center">
+            <div class="text-3xl font-bold text-amber-700">{{ analytics.posts }}</div>
+            <p class="text-sm text-slate-600">Posts</p>
+        </div>
+        <div class="p-4 bg-white rounded shadow text-center">
+            <div class="text-3xl font-bold text-amber-700">{{ analytics.orders }}</div>
+            <p class="text-sm text-slate-600">Orders</p>
+        </div>
+    </div>
+
+    <!-- Quick action buttons -->
+    <div class="flex flex-wrap gap-3 mb-10">
+        <a href="{% url 'event_create' %}" class="btn-primary">New Event</a>
+        <a href="{% url 'product_create' %}" class="btn-primary">New Product</a>
+        <a href="{% url 'service_create' %}" class="btn-primary">New Service</a>
+        <a href="{% url 'blog_new' %}" class="btn-primary">New Post</a>
+    </div>
+
+    <!-- Events management -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Events</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Title</th><th>Date</th><th>Tickets Sold</th><th>Tickets Left</th><th>Active</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for e in events %}
+                <tr class="border-b">
+                    <td>{{ e.title }}</td>
+                    <td>{{ e.start_date }}{% if e.end_date %} – {{ e.end_date }}{% endif %}</td>
+                    <td>{{ e.tickets_sold }}</td>
+                    <td>{{ e.available_tickets }}</td>
+                    <td>{% if e.is_active %}Yes{% else %}No{% endif %}</td>
+                    <td>
+                        <a href="{% url 'event_edit' e.slug %}" class="btn-secondary">Edit</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No events created yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Products management -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Products</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Name</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for prod in products %}
+                <tr class="border-b">
+                    <td>{{ prod.name }}</td>
+                    <td>${{ prod.price }}</td>
+                    <td>{% if prod.in_stock %}In Stock{% else %}Out of Stock{% endif %}</td>
+                    <td><a href="{% url 'product_edit' prod.slug %}" class="btn-secondary">Edit</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No products created yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Services management -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Services</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Name</th><th>Price</th><th>Active</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for svc in services %}
+                <tr class="border-b">
+                    <td>{{ svc.name }}</td>
+                    <td>{% if svc.price %}${{ svc.price }}{% else %}—{% endif %}</td>
+                    <td>{% if svc.is_active %}Yes{% else %}No{% endif %}</td>
+                    <td><a href="{% url 'service_edit' svc.slug %}" class="btn-secondary">Edit</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="4">No services created yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Orders list -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Product Orders</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Order Date</th><th>Product</th><th>Quantity</th><th>Name</th><th>Email</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+                <tr class="border-b">
+                    <td>{{ order.created|date:'Y-m-d H:i' }}</td>
+                    <td>{{ order.product.name }}</td>
+                    <td>{{ order.quantity }}</td>
+                    <td>{{ order.name }}</td>
+                    <td>{{ order.email }}</td>
+                    <td>{{ order.get_status_display }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No product orders yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Stay bookings list -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Stay Bookings</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Date</th><th>Name</th><th>Email</th><th>Status</th><th>Notes</th></tr>
+        </thead>
+        <tbody>
+            {% for b in stay_bookings %}
+                <tr class="border-b">
+                    <td>{{ b.date }}</td>
+                    <td>{{ b.name }}</td>
+                    <td>{{ b.email }}</td>
+                    <td>{{ b.get_status_display }}</td>
+                    <td>{{ b.notes|truncatechars:40 }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">No stay bookings yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Event bookings list -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Event Ticket Bookings</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Date</th><th>Event</th><th>Name</th><th>Tickets</th><th>Email</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+            {% for b in event_bookings %}
+                <tr class="border-b">
+                    <td>{{ b.date }}</td>
+                    <td>{{ b.event.title }}</td>
+                    <td>{{ b.name }}</td>
+                    <td>{{ b.tickets }}</td>
+                    <td>{{ b.email }}</td>
+                    <td>{{ b.get_status_display }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="6">No event bookings yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Posts management -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Blog Posts</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Title</th><th>Created</th><th>Actions</th></tr>
+        </thead>
+        <tbody>
+            {% for p in posts %}
+                <tr class="border-b">
+                    <td>{{ p.title }}</td>
+                    <td>{{ p.created|date:'Y-m-d' }}</td>
+                    <td><a href="{% url 'blog_edit' p.id %}" class="btn-secondary">Edit</a></td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="3">No blog posts yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Newsletter subscribers -->
+    <h2 class="mt-8 mb-2 text-xl font-bold">Newsletter Subscribers</h2>
+    <table class="w-full text-left mb-6">
+        <thead>
+            <tr><th>Email</th><th>Joined</th></tr>
+        </thead>
+        <tbody>
+            {% for sub in subscribers %}
+                <tr class="border-b">
+                    <td>{{ sub.email }}</td>
+                    <td>{{ sub.created_at|date:'Y-m-d' }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="2">No subscribers yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</section>
+{% endblock %}

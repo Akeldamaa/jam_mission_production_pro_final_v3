@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %}Book Your Stay - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container max-w-xl mx-auto">
+        <h1 class="section-title text-center">Book Your Stay</h1>
+        <p class="text-center mb-4">Relax near our pond, creeks or under the trees—private, peaceful campsites available. Fill out the form below to request a stay.</p>
+        {% if success %}
+            <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded mb-4">
+                Thank you! Your booking request has been submitted. Please send payment via <strong>Zelle</strong> or <strong>Venmo</strong> to <span class="underline">thejammission@gmail.com</span>. We will confirm your reservation once payment is received.
+            </div>
+        {% endif %}
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <!-- Hidden tickets field: always 1 for stay bookings -->
+            <input type="hidden" name="tickets" value="1">
+            <div>
+                <label class="block font-medium mb-1">Name</label>
+                {{ form.name }}
+                {{ form.name.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Email</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Date</label>
+                {{ form.date }}
+                {{ form.date.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Notes</label>
+                {{ form.notes }}
+                {{ form.notes.errors }}
+            </div>
+            <button type="submit" class="btn-primary">Submit</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

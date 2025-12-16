@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block title %}FAQ - JAM Mission{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container mx-auto max-w-3xl">
+        <h1 class="text-4xl font-bold mb-6 text-center">Frequently Asked Questions</h1>
+        <div class="space-y-6">
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">What is JAM Mission?</h3>
+                <p>JAM Mission is a faith-driven, self-sufficient community dedicated to providing shelter, food and resources to those in need while promoting a deeper connection with nature.  We offer unique experiences such as a mobile petting zoo, RV stays, camping and hands-on workshops to educate, inspire and support sustainable living.  Our purpose is to inspire healing, growth and second chances by fostering meaningful connections with nature, community and our Creator.</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">How do I book a stay or an event?</h3>
+                <p>Visit the <a href="{% url 'events' %}" class="text-blue-600 underline">Events</a> page to see upcoming events or head to our <a href="{% url 'stays' %}" class="text-blue-600 underline">Book Your Stay</a> page to request a campsite or RV spot.  You can also inquire about services via our <a href="{% url 'contact' %}" class="text-blue-600 underline">contact</a> page.</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">How do I pay for bookings or orders?</h3>
+                <p>After submitting a booking or order form, please send payment via <strong>Zelle</strong> or <strong>Venmo</strong> to <span class="underline">thejammission@gmail.com</span>.  Once payment is received, we will confirm your reservation or purchase.</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">What products and services do you offer?</h3>
+                <p>We offer fresh eggs, chicks, plants and other farm products.  Our services include a mobile petting zoo, farm animal tours, animal therapy and boarding.  You can browse our offerings on the <a href="{% url 'products' %}" class="text-blue-600 underline">Products</a> and <a href="{% url 'services' %}" class="text-blue-600 underline">Services</a> pages.</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-semibold mb-2">How can I contact you?</h3>
+                <p>You can reach us by email at <span class="underline">thejammission@gmail.com</span> or by phone at <strong>844‑238‑1848</strong>.  Our mailing address is Tuskegee, Alabama.  For specific enquiries, please use the <a href="{% url 'contact' %}" class="text-blue-600 underline">contact</a> page and we will respond as soon as possible.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

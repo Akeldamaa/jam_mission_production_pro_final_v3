@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %}{{ event.title }} - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container max-w-4xl mx-auto">
+        <div class="card">
+            {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}">
+            {% endif %}
+            <div class="card-content">
+                <h1 class="text-3xl font-bold mb-2">{{ event.title }}</h1>
+                {% if event.short_tagline %}
+                    <p class="text-lg text-gray-700 mb-2">{{ event.short_tagline }}</p>
+                {% endif %}
+                <p class="text-sm text-gray-600 mb-2">{{ event.start_date }}{% if event.end_date %} – {{ event.end_date }}{% endif %}</p>
+                <p class="font-semibold text-amber-700 mb-4">${{ event.price }} per ticket • {{ event.available_tickets }} / {{ event.capacity }} tickets left</p>
+                <div class="prose mb-6">
+                    {{ event.description|linebreaks }}
+                </div>
+                {% if success %}
+                    <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded mb-4">
+                        Thank you! Your booking request has been submitted. Please send payment via <strong>Zelle</strong> or <strong>Venmo</strong> to <span class="underline">thejammission@gmail.com</span>. We will confirm your tickets once payment is received.
+                    </div>
+                {% endif %}
+                {% if event.available_tickets > 0 %}
+                <form method="post" class="space-y-4">
+                    {% csrf_token %}
+                    <!-- Hidden field to identify event -->
+                    <input type="hidden" name="event_slug" value="{{ event.slug }}">
+                    {{ form.non_field_errors }}
+                    <div>
+                        <label class="block font-medium mb-1">Name</label>
+                        {{ form.name }}
+                        {{ form.name.errors }}
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Email</label>
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Date</label>
+                        {{ form.date }}
+                        {{ form.date.errors }}
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Tickets</label>
+                        {# Set the max attribute to available tickets #}
+                        {% with form.tickets as tickets_field %}
+                            <input type="number" name="{{ tickets_field.html_name }}" value="{{ tickets_field.value|default_if_none:1 }}" min="1" max="{{ event.available_tickets }}" class="input">
+                            {% for error in tickets_field.errors %}
+                                <p class="text-red-600 text-sm">{{ error }}</p>
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div>
+                        <label class="block font-medium mb-1">Notes</label>
+                        {{ form.notes }}
+                        {{ form.notes.errors }}
+                    </div>
+                    <button type="submit" class="btn-primary">Request Tickets</button>
+                </form>
+                {% else %}
+                <div class="bg-red-50 border border-red-200 text-red-800 p-4 rounded mb-4">
+                    Sorry, this event is sold out.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

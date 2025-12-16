@@ -1,0 +1,172 @@
+/*
+ * Main stylesheet for JAM Mission site.
+ * Uses a simple Tailwind-inspired style with custom colours and
+ * responsive layouts.  Feel free to extend this as needed.
+ */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    line-height: 1.6;
+    background-color: #f9fafb;
+    color: #333;
+}
+
+/* Navigation bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #021B4B;
+    color: #fff;
+    padding: 1rem 1.5rem;
+}
+
+.navbar .logo-text {
+    font-family: 'Pacifico', cursive;
+    font-size: 1.5rem;
+    color: #FFC107;
+    text-decoration: none;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.navbar li {
+    margin-left: 1rem;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+
+.navbar a:hover {
+    color: #FFC107;
+}
+
+/* Sections */
+.section {
+    padding: 2rem 1.5rem;
+}
+
+.section-title {
+    font-family: 'Pacifico', cursive;
+    font-size: 2rem;
+    color: #003366;
+    margin-bottom: 1rem;
+}
+
+/* Cards */
+.card {
+    /* Semi‑transparent white with blur for Apple‑style glass effect */
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.card-title {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-content {
+    padding: 1rem;
+    flex: 1;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #FFC107;
+    color: #003366;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e0a800;
+}
+
+/* Secondary button (outline style) */
+.btn-secondary {
+    display: inline-block;
+    background-color: transparent;
+    color: #003366;
+    border: 2px solid #003366;
+    padding: 0.5rem 1.25rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #003366;
+    color: #fff;
+}
+
+/* Inputs */
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #021B4B;
+    color: #fff;
+    margin-top: 2rem;
+}
+
+/* Grid system for lists */
+.grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+    .grid-cols-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+    .grid-cols-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}Blog - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <h1 class="section-title text-center">Blog & Announcements</h1>
+    {% if user.is_authenticated %}
+        {% if user.is_superuser or user|has_group:'technical_admin' or user|has_group:'owner' %}
+            <div class="text-right mb-4">
+                <a href="{% url 'blog_new' %}" class="btn-primary">New Post</a>
+            </div>
+        {% endif %}
+    {% endif %}
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for post in posts %}
+            <a href="{% url 'blog_detail' post.id %}" class="card" style="text-decoration: none; color: inherit;">
+                {% if post.cover %}
+                    <img src="{{ post.cover.url }}" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-content">
+                    <h2 class="card-title">{{ post.title }}</h2>
+                    <p class="text-sm text-gray-500">{{ post.created|date:'F d, Y' }}</p>
+                    <p>{{ post.content|truncatechars:150 }}</p>
+                    {% if user.is_authenticated %}
+                        {% if user.is_superuser or user|has_group:'technical_admin' or user|has_group:'owner' %}
+                            <a href="{% url 'blog_edit' post.id %}" class="btn-primary mt-2" onclick="event.stopPropagation();">Edit</a>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </a>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

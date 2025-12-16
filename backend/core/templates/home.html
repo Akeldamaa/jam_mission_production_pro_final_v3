@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Home - JAM Mission{% endblock %}
+
+{% block content %}
+<section class="section" style="background-image: url('{% static 'images/hero.png' %}'); background-size: cover; background-position: center; color: white; text-align: center; padding: 4rem 1rem;">
+    <h1 class="text-5xl font-bold mb-4" style="font-family: 'Pacifico', cursive;">Walking the Narrow Road</h1>
+    <p class="text-xl mb-6" style="max-width: 40rem; margin: 0 auto;">
+        JAM Mission is a faith‑driven, self‑sufficient community dedicated to providing shelter, food and resources to those in need while promoting a deeper connection with nature. We offer unique experiences such as a mobile petting zoo, RV stays, camping and building with nature workshops to educate, inspire and support sustainable living.
+    </p>
+    <div class="flex flex-col md:flex-row justify-center gap-3">
+        <a href="{% url 'contact' %}" class="btn-primary">Contact Us</a>
+        <a href="{% url 'subscribe' %}" class="btn-secondary">Join Our Newsletter</a>
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title text-center">Our Services</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for service in services %}
+            <div class="card">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}">
+                {% endif %}
+                <div class="card-content">
+                    <h3 class="card-title">{{ service.name }}</h3>
+                    <p>{{ service.description|truncatechars:120 }}</p>
+                    <a href="{% url 'contact' %}" class="btn-primary mt-2">Enquire</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No services available.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section" style="background-color: #021B4B; color: white;">
+    <h2 class="section-title text-center" style="color: #FFC107;">Join Our Events</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for event in events %}
+            <a href="{% url 'event_detail' event.slug %}" class="card" style="text-decoration: none; color: inherit;">
+                {% if event.image %}
+                    <img src="{{ event.image.url }}" alt="{{ event.title }}">
+                {% endif %}
+                <div class="card-content">
+                    <h3 class="card-title">{{ event.title }}</h3>
+                    <p>{{ event.short_tagline|default:event.description|truncatechars:100 }}</p>
+                    <p><strong>{{ event.start_date }}</strong>{% if event.end_date %} – <strong>{{ event.end_date }}</strong>{% endif %}</p>
+                    <p>
+                        {{ event.price }} USD • {{ event.available_tickets }} / {{ event.capacity }} tickets left
+                    </p>
+                </div>
+            </a>
+        {% empty %}
+            <p>No upcoming events.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section">
+    <h2 class="section-title text-center">Shop Our Products</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for product in products %}
+            <a href="{% url 'product_detail' product.slug %}" class="card" style="text-decoration: none; color: inherit;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% endif %}
+                <div class="card-content">
+                    <h3 class="card-title">{{ product.name }}</h3>
+                    <p>{{ product.description|truncatechars:120 }}</p>
+                    <p class="mt-2 font-bold">${{ product.price }}</p>
+                </div>
+            </a>
+        {% empty %}
+            <p>No products available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<section class="section" style="background-color: #F5F5F5;">
+    <h2 class="section-title text-center">Latest Posts</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for post in posts %}
+            <a href="{% url 'blog_detail' post.id %}" class="card" style="text-decoration: none; color: inherit;">
+                {% if post.cover %}
+                    <img src="{{ post.cover.url }}" alt="{{ post.title }}">
+                {% endif %}
+                <div class="card-content">
+                    <h3 class="card-title">{{ post.title }}</h3>
+                    <p>{{ post.content|truncatechars:100 }}</p>
+                    <p class="text-sm text-gray-500">{{ post.created|date:'F d, Y' }}</p>
+                </div>
+            </a>
+        {% empty %}
+            <p>No posts yet.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

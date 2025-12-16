@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Subscribe - JAM Mission{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container max-w-xl mx-auto text-center">
+        <h1 class="text-4xl font-bold mb-4">Join Our Newsletter</h1>
+        <p class="text-lg mb-6">Stay up to date with JAM Mission news, events, products and more. Enter your email below to subscribe.</p>
+        {% if success %}
+            <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800">
+                Thank you! You have been subscribed.
+            </div>
+        {% endif %}
+        <form method="post" class="flex flex-col items-center space-y-3">
+            {% csrf_token %}
+            {{ form.email }}
+            {{ form.email.errors }}
+            <button type="submit" class="btn-primary">Subscribe</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

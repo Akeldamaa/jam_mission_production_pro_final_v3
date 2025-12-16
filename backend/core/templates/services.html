@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Services - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <h1 class="section-title text-center">Our Services</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3">
+        {% for service in services %}
+            <div class="card">
+                {% if service.image %}
+                    <img src="{{ service.image.url }}" alt="{{ service.name }}">
+                {% endif %}
+                <div class="card-content">
+                    <h2 class="card-title">{{ service.name }}</h2>
+                    <p>{{ service.description|linebreaksbr }}</p>
+                    {% if service.price %}
+                        <p class="mt-2 font-bold">${{ service.price }}</p>
+                    {% endif %}
+                    <a href="{% url 'contact' %}" class="btn-primary mt-2">Enquire</a>
+                </div>
+            </div>
+        {% empty %}
+            <p>No services available at this time.</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

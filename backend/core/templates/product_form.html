@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}{% if editing %}Edit Product{% else %}Create Product{% endif %} - JAM Mission{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container max-w-2xl mx-auto">
+        <h1 class="section-title mb-6">{% if editing %}Edit Product{% else %}Create Product{% endif %}</h1>
+        <form method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            {% for field in form %}
+                <div>
+                    <label class="block font-medium mb-1" for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}<p class="text-sm text-gray-500">{{ field.help_text }}</p>{% endif %}
+                    {{ field.errors }}
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn-primary">{% if editing %}Update{% else %}Create{% endif %}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

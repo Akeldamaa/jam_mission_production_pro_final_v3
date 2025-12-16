@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Login - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container max-w-md mx-auto">
+        <h1 class="section-title text-center">Login</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="bg-red-50 border border-red-200 text-red-800 p-3 rounded mb-2">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            <div>
+                <label class="block font-medium mb-1">Username</label>
+                <input type="text" name="username" class="input" required>
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Password</label>
+                <input type="password" name="password" class="input" required>
+            </div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

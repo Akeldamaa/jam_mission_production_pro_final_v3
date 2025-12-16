@@ -1,0 +1,1 @@
+"""JAM Mission Django project package."""

@@ -1,0 +1,60 @@
+{# Base layout for JAM Mission site.  All other templates extend this. #}
+{% load static %}
+{% load group_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}JAM Mission{% endblock %}</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+    <!-- Tailwind-inspired custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <a href="{% url 'home' %}" class="logo-text">JAM Mission</a>
+        </div>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'services' %}">Services</a></li>
+            <li><a href="{% url 'stays' %}">Book Stay</a></li>
+            <li><a href="{% url 'events' %}">Events</a></li>
+            <li><a href="{% url 'products' %}">Products</a></li>
+            <li><a href="{% url 'blog_list' %}">Blog</a></li>
+            <li><a href="{% url 'faq' %}">FAQ</a></li>
+            <li><a href="{% url 'subscribe' %}">Subscribe</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li><a href="{% url 'prequalification' %}">Apply</a></li>
+            <li><a href="{% url 'cart' %}">Cart</a></li>
+            {% if user.is_authenticated %}
+                {% if user.is_superuser or user|has_group:'technical_admin' %}
+                    <li><a href="{% url 'tech_dashboard' %}">Tech Dashboard</a></li>
+                {% endif %}
+                {% if user|has_group:'owner' %}
+                    <li><a href="{% url 'owner_dashboard' %}">Owner Dashboard</a></li>
+                {% endif %}
+                {% if user.is_superuser or user|has_group:'technical_admin' or user|has_group:'owner' %}
+                    <li><a href="{% url 'blog_new' %}">New Post</a></li>
+                {% endif %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <p>&copy; {% now 'Y' %} JAM Mission. All rights reserved.</p>
+        <p>Through Jesus and Agriculture to the uttermost parts of the earth.</p>
+        <p>Email: <a href="mailto:thejammission@gmail.com" class="underline">thejammission@gmail.com</a> &nbsp;|&nbsp; Phone: 844‑238‑1848 &nbsp;|&nbsp; Tuskegee, AL</p>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>

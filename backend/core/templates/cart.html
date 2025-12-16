@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Your Cart - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container max-w-3xl mx-auto">
+        <h1 class="section-title mb-4">Your Cart</h1>
+        {% if success %}
+            <div class="mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800">
+                Thank you for your order! We'll be in touch shortly with details. Please send payment via Zelle or Venmo to <strong>thejammission@gmail.com</strong> and include your name in the memo.
+            </div>
+        {% endif %}
+        {% if items %}
+            <table class="w-full mb-6 text-left">
+                <thead>
+                    <tr>
+                        <th class="pb-2">Product</th>
+                        <th class="pb-2">Quantity</th>
+                        <th class="pb-2">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                        <tr>
+                            <td class="py-2">{{ item.product.name }}</td>
+                            <td class="py-2">{{ item.quantity }}</td>
+                            <td class="py-2">${{ item.subtotal }}</td>
+                        </tr>
+                    {% endfor %}
+                    <tr class="font-semibold">
+                        <td class="pt-4">Total</td>
+                        <td class="pt-4"></td>
+                        <td class="pt-4">${{ total }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2 class="text-xl font-bold mb-2">Your details</h2>
+            <form method="post" class="space-y-4">
+                {% csrf_token %}
+                {{ form.non_field_errors }}
+                <div>
+                    <label class="block font-medium mb-1" for="{{ form.name.id_for_label }}">Name</label>
+                    {{ form.name }}
+                    {{ form.name.errors }}
+                </div>
+                <div>
+                    <label class="block font-medium mb-1" for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+                <div>
+                    <label class="block font-medium mb-1" for="{{ form.notes.id_for_label }}">Notes</label>
+                    {{ form.notes }}
+                    {{ form.notes.errors }}
+                </div>
+                <button type="submit" class="btn-primary">Place Order</button>
+            </form>
+        {% else %}
+            <p>Your cart is empty. Visit the <a href="{% url 'products' %}" class="underline">Products</a> page to add items.</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}{% if post %}Edit Post{% else %}New Post{% endif %} - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <h1 class="section-title">{% if post %}Edit Post{% else %}New Post{% endif %}</h1>
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div>
+            <label class="block font-medium mb-1">Title</label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Content</label>
+            {{ form.content }}
+            {{ form.content.errors }}
+        </div>
+        <div>
+            <label class="block font-medium mb-1">Cover Image</label>
+            {{ form.cover }}
+            {{ form.cover.errors }}
+        </div>
+        <button type="submit" class="btn-primary">Save</button>
+    </form>
+</section>
+{% endblock %}

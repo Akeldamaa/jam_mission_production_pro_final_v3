@@ -1,0 +1,227 @@
+{% extends 'base.html' %}
+{% block title %}JAM Mission Lease Pre‑Qualification - JAM Mission{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container max-w-2xl mx-auto">
+        <h1 class="section-title text-center">JAM Mission Lease Pre‑Qualification Form</h1>
+        <p class="text-center mb-4">Please complete the following questions to help us prepare your lease agreement. All responses will be kept confidential and used solely for lease consideration.</p>
+        {% if sent %}
+            <div class="bg-green-50 border border-green-200 text-green-800 p-4 rounded mb-4">
+                Thank you! Your application has been submitted.
+            </div>
+        {% endif %}
+        <form method="post" enctype="multipart/form-data" class="space-y-4">
+            {% csrf_token %}
+            {{ form.non_field_errors }}
+            <!-- Section 1: Identification -->
+            <h2 class="text-lg font-semibold mt-4">1. Identification</h2>
+            <p>Please upload a clear photo of a valid driver's license or government‑issued ID for all adults (front and back).</p>
+            <div>
+                <label class="block font-medium mb-1">Front of ID</label>
+                {{ form.id_front }}
+                {{ form.id_front.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Back of ID</label>
+                {{ form.id_back }}
+                {{ form.id_back.errors }}
+            </div>
+            <!-- Section 2: Personal history -->
+            <h2 class="text-lg font-semibold mt-4">2. Personal History</h2>
+            <div>
+                <label class="block font-medium mb-1">Criminal record (if any)</label>
+                {{ form.criminal_record }}
+                {{ form.criminal_record.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Probation or outstanding warrants</label>
+                {{ form.probation_warrants }}
+                {{ form.probation_warrants.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Smoking or recreational drugs</label>
+                {{ form.smoking_drugs }}
+                {{ form.smoking_drugs.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Alcohol use behaviour</label>
+                {{ form.alcohol_use }}
+                {{ form.alcohol_use.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Former partners/violence threats</label>
+                {{ form.threats_history }}
+                {{ form.threats_history.errors }}
+            </div>
+            <!-- Section 3: Lease term -->
+            <h2 class="text-lg font-semibold mt-4">3. Lease Term</h2>
+            <div>
+                <label class="block font-medium mb-1">Desired lease length</label>
+                {{ form.lease_term }}
+                {{ form.lease_term.errors }}
+            </div>
+            <!-- Section 4: Housing structure -->
+            <h2 class="text-lg font-semibold mt-4">4. Housing Structure</h2>
+            <div>
+                <label class="block font-medium mb-1">Size of RV, camper, tiny home, etc.</label>
+                {{ form.housing_size }}
+                {{ form.housing_size.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Type of foundation (gravel, concrete, etc.)</label>
+                {{ form.housing_foundation }}
+                {{ form.housing_foundation.errors }}
+            </div>
+            <!-- Section 5: Additional structures -->
+            <h2 class="text-lg font-semibold mt-4">5. Additional Structures</h2>
+            <div>
+                <label class="block font-medium mb-1">List any kennels, sheds or greenhouses</label>
+                {{ form.additional_structures }}
+                {{ form.additional_structures.errors }}
+            </div>
+            <!-- Section 6: Vehicles -->
+            <h2 class="text-lg font-semibold mt-4">6. Vehicles</h2>
+            <div>
+                <label class="block font-medium mb-1">Number of vehicles</label>
+                {{ form.num_vehicles }}
+                {{ form.num_vehicles.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Condition of vehicles</label>
+                {{ form.vehicles_condition }}
+                {{ form.vehicles_condition.errors }}
+            </div>
+            <!-- Section 7: Household members -->
+            <h2 class="text-lg font-semibold mt-4">7. Household Members</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block font-medium mb-1">Number of adults</label>
+                    {{ form.adults }}
+                    {{ form.adults.errors }}
+                </div>
+                <div>
+                    <label class="block font-medium mb-1">Number of children</label>
+                    {{ form.children }}
+                    {{ form.children.errors }}
+                </div>
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Children ages</label>
+                {{ form.children_ages }}
+                {{ form.children_ages.errors }}
+            </div>
+            <!-- Section 8: Gardening -->
+            <h2 class="text-lg font-semibold mt-4">8. Gardening</h2>
+            <div>
+                <label class="block font-medium mb-1">Type of garden and approximate size</label>
+                {{ form.personal_garden }}
+                {{ form.personal_garden.errors }}
+            </div>
+            <!-- Section 9: Livestock -->
+            <h2 class="text-lg font-semibold mt-4">9. Livestock</h2>
+            <div>
+                <label class="block font-medium mb-1">Type and number of livestock</label>
+                {{ form.livestock }}
+                {{ form.livestock.errors }}
+            </div>
+            <!-- Section 10: Pets -->
+            <h2 class="text-lg font-semibold mt-4">10. Pets</h2>
+            <div>
+                <label class="block font-medium mb-1">List pets and breeds</label>
+                {{ form.pets }}
+                {{ form.pets.errors }}
+            </div>
+            <!-- Section 11: Fencing -->
+            <h2 class="text-lg font-semibold mt-4">11. Fencing</h2>
+            <div>
+                <label class="block font-medium mb-1">Describe fencing plans and purpose</label>
+                {{ form.fencing }}
+                {{ form.fencing.errors }}
+            </div>
+            <!-- Section 12: Membership -->
+            <h2 class="text-lg font-semibold mt-4">12. Membership</h2>
+            <div>
+                <label class="block font-medium mb-1">After 3‑month trial, do you plan to apply for full membership?</label>
+                {{ form.membership_plans }}
+                {{ form.membership_plans.errors }}
+            </div>
+            <!-- Section 13: Utilities -->
+            <h2 class="text-lg font-semibold mt-4">13. Utilities</h2>
+            <div class="grid grid-cols-3 gap-4">
+                <div>
+                    <label class="flex items-center">
+                        {{ form.require_water }}
+                        <span class="ml-2">Water</span>
+                    </label>
+                    {{ form.require_water.errors }}
+                </div>
+                <div>
+                    <label class="flex items-center">
+                        {{ form.require_power }}
+                        <span class="ml-2">Power</span>
+                    </label>
+                    {{ form.require_power.errors }}
+                </div>
+                <div>
+                    <label class="flex items-center">
+                        {{ form.require_septic }}
+                        <span class="ml-2">Septic</span>
+                    </label>
+                    {{ form.require_septic.errors }}
+                </div>
+            </div>
+            <div>
+                <label class="block font-medium mb-1">If boondocking, how do you plan to meet your needs?</label>
+                {{ form.boondock_plan }}
+                {{ form.boondock_plan.errors }}
+            </div>
+            <!-- Section 14: Monthly contribution -->
+            <h2 class="text-lg font-semibold mt-4">14. Monthly Contribution</h2>
+            <div>
+                <label class="block font-medium mb-1">Time or financial support per month</label>
+                {{ form.monthly_support }}
+                {{ form.monthly_support.errors }}
+            </div>
+            <!-- Section 15: Work exchange -->
+            <h2 class="text-lg font-semibold mt-4">15. Work Exchange</h2>
+            <div>
+                <label class="block font-medium mb-1">Months of rent to cover through work exchange</label>
+                {{ form.work_exchange_months }}
+                {{ form.work_exchange_months.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">Days and hours you can commit</label>
+                {{ form.work_days_hours }}
+                {{ form.work_days_hours.errors }}
+            </div>
+            <div>
+                <label class="block font-medium mb-1">When could you begin?</label>
+                {{ form.work_start }}
+                {{ form.work_start.errors }}
+            </div>
+            <!-- Section 16: Deposit -->
+            <h2 class="text-lg font-semibold mt-4">16. Deposit or Collateral</h2>
+            <div>
+                <label class="block font-medium mb-1">Describe deposit or collateral you can provide</label>
+                {{ form.deposit }}
+                {{ form.deposit.errors }}
+            </div>
+            <!-- Section 17: Contribution area -->
+            <h2 class="text-lg font-semibold mt-4">17. Contribution Area</h2>
+            <div>
+                <label class="block font-medium mb-1">Which areas will you contribute to? (describe)</label>
+                {{ form.contribution_area }}
+                {{ form.contribution_area.errors }}
+            </div>
+            <!-- Section 18: Skills & talents -->
+            <h2 class="text-lg font-semibold mt-4">18. Skills & Talents</h2>
+            <div>
+                <label class="block font-medium mb-1">List skills, trades or talents you bring</label>
+                {{ form.skills_talents }}
+                {{ form.skills_talents.errors }}
+            </div>
+            <button type="submit" class="btn-primary mt-4">Submit Application</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
