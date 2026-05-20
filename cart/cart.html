@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Analytics - Replace G-XXXXXXXXXX with your tracking ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Cart – Jam Mission</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    Call us: <a href="tel:8555266376">(855) 526-6376</a> &nbsp;|&nbsp; 16 Acres in Tuskegee, Alabama
+  </div>
+  <nav>
+    <span class="nav-logo">JAM MISSION</span>
+    <a href="../index.html">Home</a>
+    <a href="../about.html">About Us</a>
+    <a href="../mission.html">Our Mission</a>
+    <a href="../booking/booking.html">Book Now</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../contact/contact.html">Contact</a>
+  </nav>
+
+  <div class="cart-container" style="margin-top:40px;">
+    <h2>Your Cart</h2>
+    <div id="cartItems"></div>
+    <div id="cartTotal" class="cart-total" style="display:none;"></div>
+    <div id="cartActions" class="cart-actions" style="display:none;">
+      <a href="../contact/contact.html" class="btn">Checkout via Contact</a>
+      <button class="btn btn-outline" onclick="clearCart()">Clear Cart</button>
+    </div>
+    <div id="cartEmpty" class="cart-empty">
+      <p>Your cart is empty.</p>
+      <a href="../index.html" class="btn" style="margin-top:16px;">Browse Services</a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>JAM Mission</h4>
+        <p>Walking The Narrow Road<br />16 Acres in Tuskegee, Alabama</p>
+        <p style="margin-top:12px;"><a href="tel:8555266376">(855) 526-6376</a></p>
+        <p><a href="mailto:thejammission@gmail.com">thejammission@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About Us</a>
+        <a href="../booking/booking.html">Book Now</a>
+        <a href="../contact/contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/share/1BM9HCoZA3/?mibextid=LQQJ4d" target="_blank" rel="noopener">FB</a>
+          <a href="https://www.instagram.com/jammission_" target="_blank" rel="noopener">IG</a>
+          <a href="https://www.tiktok.com/@thejammission" target="_blank" rel="noopener">TT</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 JAM Mission. All rights reserved.</div>
+  </footer>
+
+  <script>
+    // Simple in-memory cart (resets on page reload — demo purposes)
+    // In a real app you'd use a backend or session storage
+    var cart = [];
+
+    // Check if items were passed via URL params (from service pages)
+    var params = new URLSearchParams(window.location.search);
+    var addItem = params.get('add');
+    var addPrice = params.get('price');
+
+    // Load any existing cart from the URL hash
+    try {
+      var hashData = window.location.hash.substring(1);
+      if (hashData) cart = JSON.parse(decodeURIComponent(hashData));
+    } catch(e) { cart = []; }
+
+    if (addItem && addPrice) {
+      cart.push({ name: addItem, price: parseFloat(addPrice) });
+      // Update hash to persist cart in URL
+      window.location.hash = encodeURIComponent(JSON.stringify(cart));
+      // Clean URL
+      window.history.replaceState({}, '', 'cart.html#' + encodeURIComponent(JSON.stringify(cart)));
+    }
+
+    function renderCart() {
+      var itemsEl = document.getElementById('cartItems');
+      var totalEl = document.getElementById('cartTotal');
+      var actionsEl = document.getElementById('cartActions');
+      var emptyEl = document.getElementById('cartEmpty');
+
+      if (cart.length === 0) {
+        itemsEl.innerHTML = '';
+        totalEl.style.display = 'none';
+        actionsEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        return;
+      }
+
+      emptyEl.style.display = 'none';
+      totalEl.style.display = 'block';
+      actionsEl.style.display = 'flex';
+
+      var html = '';
+      var total = 0;
+      for (var i = 0; i < cart.length; i++) {
+        total += cart[i].price;
+        html += '<div class="cart-item">' +
+          '<div class="item-info"><h4>' + cart[i].name + '</h4></div>' +
+          '<div style="display:flex;align-items:center;gap:16px;">' +
+          '<span class="item-price">$' + cart[i].price.toFixed(2) + '</span>' +
+          '<button class="remove-btn" onclick="removeItem(' + i + ')" title="Remove">&times;</button>' +
+          '</div></div>';
+      }
+      itemsEl.innerHTML = html;
+      totalEl.innerHTML = 'Total: $' + total.toFixed(2);
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      window.location.hash = encodeURIComponent(JSON.stringify(cart));
+      renderCart();
+    }
+
+    function clearCart() {
+      cart = [];
+      window.location.hash = '';
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>

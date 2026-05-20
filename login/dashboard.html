@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Analytics - Replace G-XXXXXXXXXX with your tracking ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard – JAM Mission</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .dash-header {
+      background: var(--navy);
+      color: #fff;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dash-header h1 { font-size: 1.4rem; margin: 0; }
+    .dash-header .user-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .dash-header .user-info span { font-size: 0.9rem; opacity: 0.8; }
+    .dash-header .logout-btn {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+      padding: 8px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .dash-header .logout-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+    .dash-body {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px;
+    }
+    .dash-welcome {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-medium));
+      color: #fff;
+      padding: 32px;
+      border-radius: 12px;
+      margin-bottom: 32px;
+    }
+    .dash-welcome h2 { margin: 0 0 8px; }
+    .dash-welcome p { margin: 0; opacity: 0.9; }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-bottom: 32px;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      border-left: 4px solid var(--navy);
+    }
+    .stat-card.gold { border-left-color: var(--gold); }
+    .stat-card.green { border-left-color: var(--green-dark); }
+    .stat-card.brown { border-left-color: var(--brown); }
+    .stat-card h3 {
+      color: var(--text-light);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin: 0 0 8px;
+    }
+    .stat-card .value {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .stat-card .note {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-top: 4px;
+    }
+    .dash-section {
+      background: #fff;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      margin-bottom: 24px;
+    }
+    .dash-section h3 {
+      color: var(--navy);
+      margin: 0 0 20px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid #f0f0f0;
+    }
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .quick-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--navy);
+      font-weight: 600;
+      transition: all 0.2s;
+      border: 1px solid #e8e8e8;
+    }
+    .quick-link:hover {
+      background: var(--navy);
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26,58,92,0.2);
+    }
+    .quick-link .icon { font-size: 1.5rem; }
+    .recent-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .recent-table th {
+      text-align: left;
+      padding: 12px;
+      background: #f8f9fa;
+      color: var(--navy);
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .recent-table td {
+      padding: 12px;
+      border-bottom: 1px solid #f0f0f0;
+      font-size: 0.9rem;
+    }
+    .badge-status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-pending { background: #fff3cd; color: #856404; }
+    .badge-confirmed { background: #d4edda; color: #155724; }
+    .badge-new { background: #cce5ff; color: #004085; }
+    .site-settings {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .setting-item label { font-weight: 600; color: var(--navy); font-size: 0.9rem; }
+    .setting-item span { color: var(--text-light); font-size: 0.85rem; }
+    @media (max-width: 768px) {
+      .site-settings { grid-template-columns: 1fr; }
+      .dash-header { flex-direction: column; gap: 12px; text-align: center; }
+    }
+  </style>
+</head>
+<body style="background:#f4f5f7;">
+  <div class="dash-header">
+    <h1>JAM Mission Admin</h1>
+    <div class="user-info">
+      <span id="adminUser">jammission</span>
+      <button class="logout-btn" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <div class="dash-body">
+    <!-- Welcome Banner -->
+    <div class="dash-welcome">
+      <h2>Welcome back!</h2>
+      <p>Here's an overview of your JAM Mission website. Manage bookings, view inquiries, and update your site.</p>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <h3>Total Services</h3>
+        <div class="value">13</div>
+        <div class="note">Active service pages</div>
+      </div>
+      <div class="stat-card gold">
+        <h3>Blog Posts</h3>
+        <div class="value">3</div>
+        <div class="note">Published articles</div>
+      </div>
+      <div class="stat-card green">
+        <h3>Products</h3>
+        <div class="value">3</div>
+        <div class="note">Eggs, Chicks, Oils</div>
+      </div>
+      <div class="stat-card brown">
+        <h3>Form Inbox</h3>
+        <div class="value">Web3Forms</div>
+        <div class="note">thejammission@gmail.com</div>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="dash-section">
+      <h3>Quick Actions</h3>
+      <div class="quick-links">
+        <a href="../index.html" class="quick-link" target="_blank">
+          <span class="icon">&#127968;</span> View Website
+        </a>
+        <a href="../booking/booking.html" class="quick-link" target="_blank">
+          <span class="icon">&#128197;</span> Booking Page
+        </a>
+        <a href="../contact/contact.html" class="quick-link" target="_blank">
+          <span class="icon">&#9993;</span> Contact Form
+        </a>
+        <a href="../blog/index.html" class="quick-link" target="_blank">
+          <span class="icon">&#128221;</span> Blog Posts
+        </a>
+        <a href="../cart/cart.html" class="quick-link" target="_blank">
+          <span class="icon">&#128722;</span> Shopping Cart
+        </a>
+        <a href="https://web3forms.com/" class="quick-link" target="_blank">
+          <span class="icon">&#128232;</span> Web3Forms Inbox
+        </a>
+        <a href="https://analytics.google.com" class="quick-link" target="_blank">
+          <span class="icon">&#128200;</span> Google Analytics
+        </a>
+        <a href="https://vercel.com/dashboard" class="quick-link" target="_blank">
+          <span class="icon">&#9889;</span> Vercel Dashboard
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Bookings (placeholder) -->
+    <div class="dash-section">
+      <h3>Recent Booking Requests</h3>
+      <p style="color:var(--text-light);font-size:0.9rem;margin-bottom:16px;">Booking requests are sent to <strong>thejammission@gmail.com</strong> via Web3Forms. Check your inbox for new submissions.</p>
+      <table class="recent-table">
+        <thead>
+          <tr>
+            <th>Service</th>
+            <th>Status</th>
+            <th>Source</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Mobile Petting Zoo</td>
+            <td><span class="badge-status badge-new">Active</span></td>
+            <td>Website Booking Form</td>
+          </tr>
+          <tr>
+            <td>Farm Animal Tours</td>
+            <td><span class="badge-status badge-confirmed">Active</span></td>
+            <td>Website Booking Form</td>
+          </tr>
+          <tr>
+            <td>Animal Therapy</td>
+            <td><span class="badge-status badge-confirmed">Active</span></td>
+            <td>Website Booking Form</td>
+          </tr>
+          <tr>
+            <td>Campsites</td>
+            <td><span class="badge-status badge-confirmed">Active</span></td>
+            <td>Website Booking Form</td>
+          </tr>
+          <tr>
+            <td>RV Stays</td>
+            <td><span class="badge-status badge-confirmed">Active</span></td>
+            <td>Website Booking Form</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Site Settings -->
+    <div class="dash-section">
+      <h3>Site Configuration</h3>
+      <div class="site-settings">
+        <div class="setting-item">
+          <label>Contact Email</label>
+          <span>thejammission@gmail.com</span>
+        </div>
+        <div class="setting-item">
+          <label>Phone</label>
+          <span>(855) 526-6376</span>
+        </div>
+        <div class="setting-item">
+          <label>Forms</label>
+          <span>Web3Forms (Active)</span>
+        </div>
+        <div class="setting-item">
+          <label>Analytics</label>
+          <span>Google Analytics (Setup Needed)</span>
+        </div>
+        <div class="setting-item">
+          <label>Hosting</label>
+          <span>Ready for Vercel</span>
+        </div>
+        <div class="setting-item">
+          <label>SSL Certificate</label>
+          <span>Via Hosting Provider</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Social Media -->
+    <div class="dash-section">
+      <h3>Connected Social Media</h3>
+      <div class="quick-links">
+        <a href="https://www.facebook.com/share/1BM9HCoZA3/?mibextid=LQQJ4d" class="quick-link" target="_blank">
+          <span class="icon">&#128101;</span> Facebook
+        </a>
+        <a href="https://www.instagram.com/jammission_" class="quick-link" target="_blank">
+          <span class="icon">&#128247;</span> Instagram
+        </a>
+        <a href="https://www.tiktok.com/@thejammission" class="quick-link" target="_blank">
+          <span class="icon">&#127909;</span> TikTok
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auth guard - redirect to login if not authenticated
+    if (sessionStorage.getItem('jam_admin_auth') !== 'true') {
+      window.location.href = 'admin_login.html';
+    }
+
+    // Display username
+    var user = sessionStorage.getItem('jam_admin_user');
+    if (user) {
+      document.getElementById('adminUser').textContent = user;
+    }
+
+    function logout() {
+      sessionStorage.removeItem('jam_admin_auth');
+      sessionStorage.removeItem('jam_admin_user');
+      window.location.href = 'admin_login.html';
+    }
+  </script>
+</body>
+</html>

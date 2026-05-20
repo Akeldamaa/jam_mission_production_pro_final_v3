@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Analytics - Replace G-XXXXXXXXXX with your tracking ID -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Your Experience – Jam Mission</title>
+  <link rel="stylesheet" href="../style.css" />
+</head>
+<body>
+  <div class="top-bar">
+    Call us: <a href="tel:8555266376">(855) 526-6376</a> &nbsp;|&nbsp; 16 Acres in Tuskegee, Alabama
+  </div>
+  <nav>
+    <span class="nav-logo">JAM MISSION</span>
+    <a href="../index.html">Home</a>
+    <a href="../about.html">About Us</a>
+    <a href="../mission.html">Our Mission</a>
+    <a href="../booking/booking.html" class="active">Book Now</a>
+    <a href="../blog/index.html">Blog</a>
+    <a href="../contact/contact.html">Contact</a>
+  </nav>
+
+  <div class="booking-section">
+    <h2>Book Your Experience</h2>
+    <p class="subtitle">Pick a date, choose your adventure, and we'll confirm your booking.</p>
+
+    <!-- Calendar -->
+    <div class="calendar-wrapper">
+      <div class="cal-header">
+        <button onclick="changeMonth(-1)" aria-label="Previous month">&#8249;</button>
+        <h3 id="calTitle"></h3>
+        <button onclick="changeMonth(1)" aria-label="Next month">&#8250;</button>
+      </div>
+      <div class="cal-grid" id="calGrid">
+        <div class="day-label">Sun</div>
+        <div class="day-label">Mon</div>
+        <div class="day-label">Tue</div>
+        <div class="day-label">Wed</div>
+        <div class="day-label">Thu</div>
+        <div class="day-label">Fri</div>
+        <div class="day-label">Sat</div>
+      </div>
+      <div id="selectedDateDisplay" class="selected-date-display" style="display:none;"></div>
+    </div>
+
+    <!-- Booking Form -->
+    <div class="calendar-wrapper">
+      <h3 style="color:var(--green-dark);margin-bottom:16px;">Your Details</h3>
+      <form id="bookingForm" class="booking-form">
+        <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_KEY" />
+        <input type="hidden" id="formSubject" name="subject" value="New Booking Request from JAM Mission website" />
+        <input type="hidden" name="from_name" value="JAM Mission Booking" />
+        <input type="checkbox" name="botcheck" style="display:none;" />
+        <div class="form-row">
+          <div>
+            <label for="bName">Full Name</label>
+            <input type="text" id="bName" name="name" placeholder="Jane Doe" required />
+          </div>
+          <div>
+            <label for="bEmail">Email</label>
+            <input type="email" id="bEmail" name="email" placeholder="jane@example.com" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div>
+            <label for="bPhone">Phone (optional)</label>
+            <input type="tel" id="bPhone" name="phone" placeholder="(555) 123-4567" />
+          </div>
+          <div>
+            <label for="bGuests">Group Size</label>
+            <select id="bGuests" name="guests">
+              <option value="1">1 person</option>
+              <option value="2" selected>2 people</option>
+              <option value="3-4">3-4 people</option>
+              <option value="5-8">5-8 people</option>
+              <option value="9+">9+ (group booking)</option>
+            </select>
+          </div>
+        </div>
+
+        <label for="bService">Experience</label>
+        <select id="bService" name="service">
+          <option value="Mobile Petting Zoo">Mobile Petting Zoo</option>
+          <option value="Farm Animal Tour">Farm Animal Tour</option>
+          <option value="Animal Therapy">Animal Therapy</option>
+          <option value="Animal Boarding">Animal Boarding</option>
+          <option value="Campsite">Campsite</option>
+          <option value="Glamping">Glamping</option>
+          <option value="RV Stay (Short Term)">RV Stay (Short Term)</option>
+          <option value="RV Stay (Long Term)">RV Stay (Long Term)</option>
+          <option value="Horticulture Therapy">Horticulture Therapy</option>
+          <option value="Workshop">Workshop</option>
+          <option value="Celebration / Event">Celebration / Event</option>
+          <option value="Farm Products">Farm Products</option>
+        </select>
+
+        <label for="bNotes">Special Requests or Notes</label>
+        <textarea id="bNotes" name="notes" placeholder="Anything we should know? Dietary needs, accessibility, kids' ages..."></textarea>
+
+        <input type="hidden" id="bDate" name="date" value="" />
+
+        <button type="submit" class="btn" style="width:100%;margin-top:24px;padding:14px;font-size:1rem;">
+          Confirm Booking Request
+        </button>
+
+        <div id="bookingMsg" class="form-message"></div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>JAM Mission</h4>
+        <p>Walking The Narrow Road<br />16 Acres in Tuskegee, Alabama</p>
+        <p style="margin-top:12px;"><a href="tel:8555266376">(855) 526-6376</a></p>
+        <p><a href="mailto:thejammission@gmail.com">thejammission@gmail.com</a></p>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="../index.html">Home</a>
+        <a href="../about.html">About Us</a>
+        <a href="../booking/booking.html">Book Now</a>
+        <a href="../contact/contact.html">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/share/1BM9HCoZA3/?mibextid=LQQJ4d" target="_blank" rel="noopener">FB</a>
+          <a href="https://www.instagram.com/jammission_" target="_blank" rel="noopener">IG</a>
+          <a href="https://www.tiktok.com/@thejammission" target="_blank" rel="noopener">TT</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 JAM Mission. All rights reserved.</div>
+  </footer>
+
+  <script>
+    var currentMonth, currentYear, selectedDate = null;
+    var today = new Date();
+    currentMonth = today.getMonth();
+    currentYear = today.getFullYear();
+
+    var months = ['January','February','March','April','May','June',
+                  'July','August','September','October','November','December'];
+
+    function renderCalendar() {
+      var title = document.getElementById('calTitle');
+      title.textContent = months[currentMonth] + ' ' + currentYear;
+
+      // Remove old day cells
+      var grid = document.getElementById('calGrid');
+      var old = grid.querySelectorAll('.day');
+      old.forEach(function(el) { el.remove(); });
+
+      var firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      var daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+      // Empty cells before first day
+      for (var i = 0; i < firstDay; i++) {
+        var empty = document.createElement('div');
+        empty.className = 'day empty';
+        grid.appendChild(empty);
+      }
+
+      for (var d = 1; d <= daysInMonth; d++) {
+        var cell = document.createElement('div');
+        cell.className = 'day';
+        cell.textContent = d;
+
+        var cellDate = new Date(currentYear, currentMonth, d);
+        if (cellDate < new Date(today.getFullYear(), today.getMonth(), today.getDate())) {
+          cell.classList.add('past');
+        } else {
+          cell.setAttribute('data-date', currentYear + '-' + String(currentMonth+1).padStart(2,'0') + '-' + String(d).padStart(2,'0'));
+          cell.onclick = function() { selectDate(this); };
+        }
+
+        if (d === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear()) {
+          cell.classList.add('today');
+        }
+
+        if (selectedDate && selectedDate === cell.getAttribute('data-date')) {
+          cell.classList.add('selected');
+        }
+
+        grid.appendChild(cell);
+      }
+    }
+
+    function selectDate(el) {
+      document.querySelectorAll('.cal-grid .day.selected').forEach(function(s) { s.classList.remove('selected'); });
+      el.classList.add('selected');
+      selectedDate = el.getAttribute('data-date');
+      document.getElementById('bDate').value = selectedDate;
+
+      var parts = selectedDate.split('-');
+      var dateObj = new Date(parts[0], parts[1]-1, parts[2]);
+      var display = dateObj.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+      var dd = document.getElementById('selectedDateDisplay');
+      dd.textContent = 'Selected: ' + display;
+      dd.style.display = 'block';
+    }
+
+    function changeMonth(dir) {
+      currentMonth += dir;
+      if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+      if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+      renderCalendar();
+    }
+
+    renderCalendar();
+
+    // Form submission via Web3Forms
+    document.getElementById('bookingForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var msg = document.getElementById('bookingMsg');
+
+      if (!selectedDate) {
+        msg.textContent = 'Please select a date on the calendar above.';
+        msg.className = 'form-message error';
+        return;
+      }
+
+      var name = document.getElementById('bName').value.trim();
+      var email = document.getElementById('bEmail').value.trim();
+
+      if (!name || !email) {
+        msg.textContent = 'Please fill in your name and email.';
+        msg.className = 'form-message error';
+        return;
+      }
+
+      // Set the subject field
+      document.getElementById('formSubject').value = 'Booking Request: ' + document.getElementById('bService').value + ' on ' + selectedDate + ' - ' + name;
+
+      msg.textContent = 'Sending your booking request...';
+      msg.className = 'form-message success';
+
+      var formData = new FormData(this);
+      fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+      }).then(function(res) { return res.json(); })
+        .then(function(data) {
+          if (data.success) {
+            msg.textContent = 'Thank you! Your booking request has been sent. We\'ll confirm within 24 hours!';
+            msg.className = 'form-message success';
+            document.getElementById('bookingForm').reset();
+            selectedDate = null;
+            document.getElementById('selectedDateDisplay').style.display = 'none';
+            document.querySelectorAll('.cal-grid .day.selected').forEach(function(s) { s.classList.remove('selected'); });
+          } else {
+            msg.textContent = 'Something went wrong. Please email us directly at thejammission@gmail.com';
+            msg.className = 'form-message error';
+          }
+        }).catch(function() {
+          msg.textContent = 'Network error. Please email us directly at thejammission@gmail.com';
+          msg.className = 'form-message error';
+        });
+    });
+  </script>
+</body>
+</html>
